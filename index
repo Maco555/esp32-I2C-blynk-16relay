@@ -1,0 +1,243 @@
+
+// Fill-in information from your Blynk Template here
+#define BLYNK_TEMPLATE_ID "TMPLSPy5qmjk"
+#define BLYNK_DEVICE_NAME "I2C"
+
+#define BLYNK_FIRMWARE_VERSION        "0.1.0"
+
+#define BLYNK_PRINT Serial
+//#define BLYNK_DEBUG
+
+#define APP_DEBUG
+
+// Uncomment your board, or configure a custom board in Settings.h
+//#define USE_WROVER_BOARD
+//#define USE_TTGO_T7
+//#define USE_ESP32C3_DEV_MODULE
+//#define USE_ESP32S2_DEV_KIT
+
+#include "BlynkEdgent.h"
+
+#include <Wire.h>
+
+#define I2C_Freq 100000
+#define SDA_0 18
+#define SCL_0 19
+ 
+TwoWire I2C_0 = TwoWire(0);
+// I2C slave addresses can changeable by user via dip switch on board
+
+#define BOARD_1 0x27    // i2c slave address of BOARD #1
+#define BOARD_2 0x26    // i2c slave address of BOARD #2
+
+
+#define  ON 1
+#define OFF 0
+
+int FAST = 500;              // delay value in ms
+
+unsigned char i2c_buffer;
+
+unsigned char i2c_buffer_1;   // i2c relay variable buffer for #1 relay board
+unsigned char i2c_buffer_2;   // i2c relay variable buffer for #2 relay board
+
+void setup()
+{
+  Serial.begin(115200);
+  delay(100);
+  Wire.begin(); 
+  I2C_0.begin(SDA_0 , SCL_0 , I2C_Freq);
+  BlynkEdgent.begin();
+}
+
+void loop() {
+  BlynkEdgent.run();
+}
+void channel_mode(unsigned char addr, unsigned char channel, unsigned char value)
+{
+ switch (addr) {   case BOARD_1: i2c_buffer = i2c_buffer_1; break;
+                   case BOARD_2: i2c_buffer = i2c_buffer_2; break;
+                     }
+                  
+
+ channel = 8-channel;
+
+ i2c_buffer &= ~(1<<(channel));
+ i2c_buffer |= value<<channel;
+
+ 
+ switch (addr) {   case BOARD_1: i2c_buffer_1 = i2c_buffer; break;
+                   case BOARD_2: i2c_buffer_2 = i2c_buffer; break;
+                     }
+ 
+
+ Wire.beginTransmission(addr);             
+ Wire.write(~i2c_buffer);               
+ Wire.endTransmission();  
+}
+
+BLYNK_CONNECTED() {
+    Blynk.syncAll();
+}
+
+BLYNK_WRITE(V1)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_1,1,ON);
+  }
+  else{
+    channel_mode(BOARD_1,1,OFF);
+  }
+}
+
+BLYNK_WRITE(V2)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_1,2,ON);
+  }
+  else{
+    channel_mode(BOARD_1,2,OFF);
+  }
+}
+BLYNK_WRITE(V3)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_1,3,ON);
+  }
+  else{
+    channel_mode(BOARD_1,3,OFF);
+  }
+}
+BLYNK_WRITE(V4)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_1,4,ON);
+  }
+  else{
+    channel_mode(BOARD_1,4,OFF);
+  }
+}
+BLYNK_WRITE(V5)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_1,5,ON);
+  }
+  else{
+    channel_mode(BOARD_1,5,OFF);
+  }
+}
+BLYNK_WRITE(V6)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_1,6,ON);
+  }
+  else{
+    channel_mode(BOARD_1,6,OFF);
+  }
+}
+BLYNK_WRITE(V7)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_1,7,ON);
+  }
+  else{
+    channel_mode(BOARD_1,7,OFF);
+  }
+}
+BLYNK_WRITE(V8)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_1,8,ON);
+  }
+  else{
+    channel_mode(BOARD_1,8,OFF);
+  }
+}
+BLYNK_WRITE(V9)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_2,1,ON);
+  }
+  else{
+    channel_mode(BOARD_2,1,OFF);
+  }
+}
+BLYNK_WRITE(V10)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_2,2,ON);
+  }
+  else{
+    channel_mode(BOARD_2,2,OFF);
+  }
+}
+BLYNK_WRITE(V11)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_2,3,ON);
+  }
+  else{
+    channel_mode(BOARD_2,3,OFF);
+  }
+}
+BLYNK_WRITE(V12)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_2,4,ON);
+  }
+  else{
+    channel_mode(BOARD_2,4,OFF);
+  }
+}
+BLYNK_WRITE(V13)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_2,5,ON);
+  }
+  else{
+    channel_mode(BOARD_2,5,OFF);
+  }
+}
+BLYNK_WRITE(V14)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_2,6,ON);
+  }
+  else{
+    channel_mode(BOARD_2,6,OFF);
+  }
+}
+BLYNK_WRITE(V15)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_2,7,ON);
+  }
+  else{
+    channel_mode(BOARD_2,7,OFF);
+  }
+}
+BLYNK_WRITE(V16)
+{   
+  int value = param.asInt(); // Get value as integer
+  if(value == 1){
+    channel_mode(BOARD_2,8,ON);
+  }
+  else{
+    channel_mode(BOARD_2,8,OFF);
+  }
+}
